@@ -1,9 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:images_picker/images_picker.dart';
 
 void main() {
@@ -78,26 +75,6 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
-            ElevatedButton(
-              onPressed: () async {
-                File file =
-                    await downloadFile('https://cdn.chavesgu.com/logo.png');
-                bool res = await ImagesPicker.saveImageToAlbum(file,
-                    albumName: "chaves");
-                print(res);
-              },
-              child: Text('saveNetworkImageToAlbum'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                File file = await downloadFile(
-                    'https://cdn.chavesgu.com/SampleVideo.mp4');
-                bool res = await ImagesPicker.saveVideoToAlbum(file,
-                    albumName: "chaves");
-                print(res);
-              },
-              child: Text('saveNetworkVideoToAlbum'),
-            ),
             path != null
                 ? Container(
                     height: 200,
@@ -111,15 +88,5 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  Future<File> downloadFile(String url) async {
-    Dio simple = Dio();
-    String savePath = Directory.systemTemp.path + '/' + url.split('/').last;
-    await simple.download(url, savePath,
-        options: Options(responseType: ResponseType.bytes));
-    print(savePath);
-    File file = new File(savePath);
-    return file;
   }
 }
